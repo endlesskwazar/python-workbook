@@ -1,0 +1,27 @@
+{
+  "name": "js-workbook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/endlesskwazar/node-js-workbook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/endlesskwazar/node-js-workbook/issues"
+  },
+  "homepage": "https://github.com/endlesskwazar/node-js-workbook#readme",
+  "dependencies": {
+    "gulp": "^4.0.0",
+    "gulp-insert": "^0.5.0",
+    "gulp-md-to-html": "^1.0.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-markdown-html-presentation": "0.0.2"
+  }
+}
