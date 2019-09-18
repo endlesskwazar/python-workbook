@@ -283,7 +283,7 @@ def transfer_medicine_to_storage(medicine, to_storage, amount, invoice_number, i
     """
 ```
 
-# Перевірка типів параметрів
+# Підказки типів
 
 Хоча Python динамічно - типізована мова програмування, ми можемо підказати тип змінної наприклад(Python 3):
 
@@ -396,10 +396,6 @@ helper_func(3)
 print(db_connect(1))
 ```
 
-??? here is explanation of path
-
-???????????????? here is example of import all with like default syntax modules
-
 # Модуль datetime
 
 Модуль datetime містить наступні класи:
@@ -443,10 +439,6 @@ some_date.year = 2018
 ```
 
 ![](../resources/img/2/7.png)
-
-???? heres info about comparing date
-
-???? heres info about internal max/min dates
 
 ## datetime.time
 
@@ -511,6 +503,40 @@ print(d.hour) # 12
 
 ## datetime.timdelta
 
+Об'єкт datetime.timedelta показує тривалість часу. Інші слова, це розрив між двома датами або проміжками часу. Розгляньмо приклад:
+
+```py
+import datetime
+
+today = datetime.date(2019, 9, 18)
+tomorrow = datetime.date(2019, 9, 19)
+
+diff = tomorrow - today
+
+print(diff.days)
+```
+
+## compare date
+
+Порівнювати дати в Python досить просто. Дати можна легко порівняти за допомогою операторів порівняння (наприклад, <,>, <=,> =,! = Тощо). Давайте подивимось, як порівняти дати за допомогою модуля часу, використовуючи Python.
+
+```py
+import datetime 
+  
+d1 = datetime.datetime(2018, 5, 3) 
+d2 = datetime.datetime(2018, 6, 1) 
+  
+print("d1 is greater than d2 : ", d1 > d2) 
+print("d1 is less than d2 : ", d1 < d2) 
+print("d1 is not equal to d2 : ", d1 != d2) 
+```
+
+![](../resources/img/2/18.png)
+
+## date min/max
+
+Найменший номер року, дозволений у об'єкті date, datetime. MINYEAR - це 1. Найбільше число років, дозволене в об'єкті date або datetime. MAXYEAR - 9999.
+
 ## now
 
 Часто трапляються ситуації, коли потрібно сьогоднішню дату і час, який є зараз. Розгляньмо як це можна зробити. використовуючи модуль datetime.
@@ -539,6 +565,8 @@ print(date_object)
 
 # Домашнє завдання
 
+Виконайте завдання згідно із варіантом.
+
 # Варіанти
 
 1.
@@ -554,11 +582,11 @@ print(date_object)
 
 # Контрольні запитання
 
-1. віапвіа
-2. ів аів
-3. іваіва
-4. іваіва
-5. іваі
-6. іваів
-7. іваів
-8. іваіва
+1. Що таке функція і як її оголосити?
+2. Поясніть, що таке параметри за замовчуванням та іменовані параметри.
+3. Що таке Rest - параметр?
+4. Поясніть термін "functions as first class citizens".
+5. Що таке Doc - strings?
+6. Що таке підказки типів? Як Python Runtime обробляє підказки типів?
+7. Як можна імпортувати об'єкти із одного модуля в інший? 
+8. Перелічіть і поясніть класи із модулю datetime.
