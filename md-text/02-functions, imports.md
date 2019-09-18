@@ -87,9 +87,74 @@ print("res3", res3)
 
 ## immutable і mutable параметри
 
-## Параметри за замовчуванням
+Дуже важливо спочатку зрозуміти змінні та незмінні об'єкти. У Python є два типи об'єктів: змінні та незмінні.
+
+- Для незмінних об'єктів зміна їх усередині функції створить новий екземпляр, а оригінальні екземпляри поза функцією не зміняться. Незмінними об'єктами в Python є рядок, числа та кортеж.
+- Для об'єктів, що змінюються, будь-які зміни, внесені до об'єктів всередині функції, впливатимуть на екземпляр поза функцією. Але перепризначення екземпляра не вплине на екземпляр поза функцією. Об'єкти, що змінюються в Python, включають список, словник, екземпляр класу.
+
+Розгляньмо приклад:
+```py
+def change(a, b, c, d):
+  a = 3
+  b = "qwe"
+  c = [1,2,3]
+  d.append(77)
+
+a = 1
+b = "zxc"
+c = [4,5,6]
+d = [44]
+
+change(a, b, c, d)
+
+print("a", a)
+print("b", b)
+print("c", c)
+print("d", d)
+```
+
+![](../resources/img/2/10.png)
+
+## Параметри за замовчуванням та іменовані параметри
+
+Для всіх параметрів функцій можна вказувати значення за замовчуванням, це дає можливість випустити функцію з меншим числом параметрів. Наприклад, у нас є функція для авторизації користувача на сайті:
+
+```py
+def login(username="anonymous", password=None):
+    pass
+```
+
+Викликати цю функцію можна декількома способами:
+
+```py
+login("root", "ujdyzysqgfhjkm")
+login("guest")
+login()
+```
+
+Але звирніть увагу, що наприклад такий код, призведе до помилки:
+
+```py
+def some(a = 3, b):
+  pass
+```
+
+![](../resources/img/2/11.png)
+
+Не дефолтний параметр не може слідувати після дефолтного.
+
+Ми може передавати в функцію параметри не попорядку використовуючи іменовані параметри, наприклад:
+
+```py
+def login(username="anonymous", password=None):
+    pass
+
+login(password="nobody@mail.com") 
+```
 
 ## Rest - оператор
+
+
 
 # Функції "as first class citizens"
 
@@ -280,13 +345,65 @@ print("Microsecond: ", some_time.microsecond)
 
 ## datetime.datetime
 
+Об'єкт datetime.datetime містить всю інформацію об'єктів datetime.date плюс datetime.time. Розгляньмо декілька прикладів, для кращого розуміння.
+
+```py
+import datetime
+ 
+a = datetime.datetime(2017, 3, 5)
+print(a) # datetime.datetime(2017, 3, 5, 0, 0)
+ 
+b = datetime.datetime(2017, 3, 5, 12, 30, 10)
+print(b) # datetime.datetime(2017, 3, 5, 12, 30, 10)
+ 
+d = datetime.datetime(2017, 3, 5, 12, 30, 10)
+print(d.year) # 2017
+print(d.second) # 10
+print(d.hour) # 12
+```
+
 ## datetime.timdelta
 
 ## now
 
+Часто трапляються ситуації, коли потрібно сьогоднішню дату і час, який є зараз. Розгляньмо як це можна зробити. використовуючи модуль datetime.
+
+### Current date and time
+
+```py
+import datetime
+
+datetime_object = datetime.datetime.now()
+print(datetime_object)
+```
+
+![](../resources/img/2/8.png)
+
+### Current date
+
+```py
+import datetime
+
+date_object = datetime.date.today()
+print(date_object)
+```
+
+![](../resources/img/2/9.png)
+
 # Домашнє завдання
 
 # Варіанти
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
 
 # Контрольні запитання
 
