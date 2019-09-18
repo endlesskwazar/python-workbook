@@ -152,17 +152,164 @@ def login(username="anonymous", password=None):
 login(password="nobody@mail.com") 
 ```
 
-## Rest - оператор
+## Rest - параметр
 
+Задача: написати функцію, яка приймає будь-яку кількість рядків конкатенує і поверає їх. Вирішити таку задачку допоможе rest - параметр: якщо поставити * перед іменем параметра - це означає взяти всі передані і зробити список всіх переданих параметрів.
+
+```py
+def concat(*strs):
+  res = ''
+  for str in strs:
+    res += str
+  return res
+
+print(concat('Hello', ' World'))
+print(concat('Hello ', 'World', '!!!'))
+```
+
+![](../resources/img/2/12.png)
 
 
 # Функції "as first class citizens"
 
+Виконаймо наступний код:
+
+```py
+a = 3
+b = 'Hello World!!!'
+
+def some_func():
+  pass
+
+print(type(a))
+print(type(b))
+print(type(some_func))
+```
+
+![](../resources/img/2/13.png)
+
+В Python вбудовані типи - це об'єкти, навіть функції - це об'єкти. Такий механізм називається "functions as first class citizens", а це значить:
+
+- Можна зробити посилання на функцію
+
+```py
+def print_text(text):
+  print(text)
+
+a = print_text
+b = print_text
+
+print_text("Original")
+print_text("Link a")
+print_text("Link b")
+
+print(id(print_text))
+print(id(a))
+print(id(b))
+```
+
+![](../resources/img/2/14.png)
+
+- Функцію можна передати як параметр
+
+```py
+def higher_order_function(value, cb):
+  if value > 5:
+    cb("More then five")
+    return
+  return cb("Less then five")
+
+def print_text(text):
+  print(text)
+
+higher_order_function(1, print_text)
+a = print_text
+higher_order_function(10, a)
+```
+
 # Документація функцій
 
-## Коментарі і doc-string
+## Doc - string
 
-## Перевірка типів параметрів
+Doc trings - рядкові летурали, які є першим оператором в модулі, функції, класі або визначенні методу. Такий рядковий літерал стає атрибутом __doc__ цього об'єкта.
+
+Усі модулі мають, як правило, повинні містит doc strings, і всі функції та класи.
+
+Для узгодження, завжди використовуйте "" потрійні подвійні цитати "" "для строкової документації.
+
+Наприклад:
+
+```py
+def concat(a, b):
+  """ Return concat of two strings """
+  return a + b
+
+print(concat.__doc__)
+```
+
+![](../resources/img/2/15.png)
+
+Якщо документація не поміщається в один рядок можна використати багаторядковий doc - string:
+
+```py
+def concat(a, b):
+  """ Return concat of two strings
+    
+      a: str
+      b: str
+
+  """
+  return a + b
+```
+
+Повна документація функції включає в себе:
+- Пояснення функції
+- Перелік параметрів і їх типів
+- Можливі виключення, які кидає функція
+- Тип і пояснення значення, яке функція повертає
+
+```py
+def transfer_medicine_to_storage(medicine, to_storage, amount, invoice_number, insurance_company):
+    """
+    Transfer medicine from one storage to another by passed amount
+
+    :param (int|Storage) to_storage: storage to transfer
+    :param (str) invoice_number: invoice number
+    :param (Medicine) medicine: Medicine to transfer
+    :param (Decimal) amount: Amount to transfer
+    :param (int|InsuranceCompany) insurance_company: Insurance company
+    :raises MedicineAmountError: If medicine amount less then requested amount
+    :return (int): Transferred medicine id
+    """
+```
+
+# Перевірка типів параметрів
+
+Хоча Python динамічно - типізована мова програмування, ми можемо підказати тип змінної наприклад(Python 3):
+
+```py
+a: int = 1
+b: int = 'text'
+
+print(a)
+print(b)
+```
+
+![](../resources/img/2/16.png)
+
+**Зверніть увагу**, що ніякої помилки в тому, що ми вказали int а присвоїли str. Python runtime не застосовує примітки до функцій та змінних типів. Вони можуть використовуватися сторонніми інструментами, такими як type checker, IDE, linters тощо.
+
+Також ми можемо підказувати типи даних для функції:
+
+```py
+def concat(a: str, b: str) -> str:
+  return a + b
+```
+
+Тоді наприклад IDE може дати наступну підказку:
+
+![](../resources/img/2/17.png)
+
 
 # Модульність
 
