@@ -28,8 +28,8 @@
 
 # Будування
 
-1. git clone https://github.com/endlesskwazar/node-js-workbook.git
-2. cd node-js-workbook
+1. git clone https://github.com/endlesskwazar/python-workbook
+2. cd python-workbook
 3. npm i
 4. npm run buid
 
