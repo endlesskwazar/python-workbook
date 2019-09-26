@@ -263,6 +263,30 @@ set()
 |set.difference(other, ...)|множина усіх елементів set, які не належать жодному з other.|
 
 
+### Frozenset
+Єдина відмінність set від frozenset полягає в тому, що set - змінюваний тип даних, а frozenset - немає. Приблизно схожа ситуація з списками і кортежами.
+
+
+### Frozenset
+```py
+>>> a = set('qwerty')
+>>> b = frozenset('qwerty')
+>>> a == b
+True
+>>> True
+True
+>>> type(a - b)
+<class 'set'>
+>>> type(a | b)
+<class 'set'>
+>>> a.add(1)
+>>> b.add(1)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'frozenset' object has no attribute 'add'
+```
+
+
 
 ## Зворотньо - польська нотація
 

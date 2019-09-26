@@ -242,6 +242,28 @@ set()
 
 і т.д.
 
+## FrozenSet
+
+Єдина відмінність set від frozenset полягає в тому, що set - змінюваний тип даних, а frozenset - немає. Приблизно схожа ситуація з списками і кортежами.
+
+```py
+>>> a = set('qwerty')
+>>> b = frozenset('qwerty')
+>>> a == b
+True
+>>> True
+True
+>>> type(a - b)
+<class 'set'>
+>>> type(a | b)
+<class 'set'>
+>>> a.add(1)
+>>> b.add(1)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'frozenset' object has no attribute 'add'
+```
+
 
 # Зворотньо - польська нотація
 
@@ -590,10 +612,9 @@ def rpn(infix, infix__postfix, postfix_evaluetor, *checkers):
 
 # Контрольні запитання
 
-1.
-2.
-3.
-4.
-5.
-6.
-7.
+1. Назвіть, які вбудовані структури даних в Python можуть бути використані в якості стека.
+2. Назвіть, які вбудовані структури даних в Python можуть бути використані в якісті черги.
+3. Що таке кортеж в Python?
+4. Що таке множина в Python?
+5. Що таке словник в Python?
+6. Поясніть алгоритм обернено - польської нотації.
