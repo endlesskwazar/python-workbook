@@ -298,6 +298,45 @@ print(l)
 3. Кожен масив має один і лише один тип. Усі елементи в ньому повинні бути такого типу.
 4. Еквівалентний масив numpy займає набагато менше місця, ніж список списків у python.
 
+## zeros() ones()
+
+Модуль Numpy Python надає функції для створення нумерованого масиву заданої форми та типу і всіх значень у ньому, ініціалізованих 0, або 1.
+
+```py
+numpy.zeros(shape, dtype=float, order='C')
+numpy.opnes(shape, dtype=float, order='C')
+```
+
+Аргументи:
+
+- shape - форма митриці(число, послідовність чисел)
+- dtype(Optional) - тип даних
+- order - Порядок, у якому дані зберігаються у багатовимірному масиві, тобто у магістралі рядків ('F') або в основному стовпці ('C'). За замовчуванням - "C".
+
+```py
+import numpy as np
+
+matrix_1d = np.zeros(5)
+print(matrix_1d)
+matrix_1d_int = np.zeros(5, dtype=np.int32)
+print(matrix_1d_int)
+matrix_1d_ones = np.ones(5)
+print(matrix_1d_ones)
+```
+
+![](../resources/img/4/17.png)
+
+```py
+import numpy as np
+
+matrix_2d = np.zeros((3,5))
+print(matrix_2d)
+matrix_3d = np.ones((3,6,5))
+print(matrix_3d)
+```
+
+![](../resources/img/4/18.png)
+
 ## Розмір і форма масивів
 
 Ось деякі властивості, які можна дізнатися про масиви:
@@ -329,6 +368,151 @@ print(arr.size)
 
 ![](../resources/img/4/15.png)
 
+## reshape() flatten()
+
+**reshape** надає нову форму масиву, не змінюючи його даних.
+
+```py
+numpy.reshape(a, newShape, order='C')
+```
+
+Аргументи:
+
+- а - масив для зміни форми
+- newShape - нова форма
+- order - Порядок, у якому дані зберігаються у багатовимірному масиві, тобто у магістралі рядків ('F') або в основному стовпці ('C'). За замовчуванням - "C".
+
+```py
+import numpy as np
+
+e  = np.array([(1,2,3), (4,5,6)])
+print(e)
+
+n = e.reshape(3,2)
+print(n)
+```
+
+![](../resources/img/4/19.png)
+
+**flatten** повертає масив зжатий в один вимір. Часто застосовується для нейронних мереж.
+
+```py
+ndarray.flatten(order='C')
+```
+
+```py
+import numpy as np
+
+e  = np.array([(1,2,3), (4,5,6)])
+print(e)
+
+n = e.flatten()
+print(n)
+```
+
+![](../resources/img/4/20.png)
+
+## hstack() vstack()
+
+За допомогою hstack ви можете додавати дані по горизонталі. Це дуже зручна функція в Numpy.
+
+```py
+import numpy as np
+
+f = np.array([[1,5,6],[3,8,9]])
+g = np.array([[4,5,6], [9,4,7]])
+
+print('Horizontal Append:', np.hstack((f, g)))
+```
+
+![](../resources/img/4/21.png)
+
+За допомогою **vstack** ви можете додавати дані вертикально.
+
+```py
+import numpy as np
+
+f = np.array([[1,5,6],[3,8,9]])
+g = np.array([[4,5,6], [9,4,7]])
+
+print('Vertical Append:', np.vstack((f, g)))
+```
+
+![](../resources/img/4/22.png)
+
+
+## Генерація рандомних чисел
+
+Для генерації випадкових чисел в діапазоні можна використати функцію radint
+
+```py
+numpy.random.randint(low, high=None, size=None, dtype='l')
+```
+
+Аргументи:
+
+- low - мінімально можливе згенероване число (дефол: мінімальне знакове int)
+- hight - саксимально можливе згенероване число (дефолт: максимальне знакове int)
+- size - Форма згенерованого масива. (m,n,k)
+- stype - Тип int(int32, int64) і т.д.
+
+```py
+import numpy as np
+
+gen = np.random.randint(low=1, high=100, size=4)
+print(gen)
+```
+
+![](../resources/img/4/23.png)
+
+Для генерації випадкових чисел для використання Гауссова розподілу:
+
+```py
+numpy.random.normal(loc, scale, size) 
+```
+
+Аргументи:
+
+- loc: середня. Центр розповсюдження
+- scale: стандартне відхилення.
+- size: форма згенерованого масиву
+
+```py
+import numpy as np
+
+normal_array = np.random.normal(5, 0.5, 10)
+print(normal_array)	
+```
+
+![](../resources/img/4/24.png)
+
+Якщо побудувати графік, розподіл буде подібний до наступного
+
+![](../resources/img/4/25.png)
+
+## arrange
+
+Іноді потрібно створити значення, які рівномірно розташовані протягом визначеного інтервалу. Наприклад, ви хочете створити значення від 1 до 10; ви можете використовувати функцію numpy.arange ()
+
+```py
+numpy.arange(start, stop,step) 
+```
+
+Аргументи:
+
+- start: початок інтервалу
+- stop: кінець інтервалу
+- step: крок між значеннями(дефолт: 1)
+
+```py
+import numpy as np
+
+print(np.arange(1, 11))	
+```
+
+![](../resources/img/4/26.png)
+
+
 ## Отримання елементів
 
 Ви можете отримати конкретні елементи з масиву, використовуючи індексацію, починаючи з 0, щось подібне до того, як ви робите зі списками python.
@@ -347,6 +531,44 @@ arr2 = np.array([
 print(arr1[0])
 print(arr2[0, 0])
 ```
+
+Також в numpy можна використовувати slicing. Наприклад, [:,1]
+
+У Python, як і в багатьох інших мовах:
+
+- Значення перед комою використовуються для рядків
+- Значення справа використовується для стовпців
+- Якщо ви хочете вибрати стовпець, вам потрібно додати: перед індексом стовпця.
+- : означає усі рядки з вибраного стовпця.
+
+```py
+import numpy as np
+
+arr = np.array([
+  [1,7,6],
+  [3,2,1],
+  [5,7,8]
+])
+
+"""
+: - all rows
+, start working with columns
+1 - second column
+"""
+
+print(arr[:,1])
+
+"""
+1 - second row
+, start working with columns
+:2 - first two values
+"""
+
+print(arr[1,:2])
+```
+
+![](../resources/img/4/27.png)
+
 
 ## Невизначенні значення і безкінечність
 
@@ -375,7 +597,41 @@ print(arr2)
 
 ## Мінімальне, максимальне, середнє
 
+```py
+import numpy as np
+
+arr = np.array([8,4,0,5,4])
+# min
+print(np.min(arr))
+# max
+print(np.max(arr))
+# mean
+print(np.mean(arr))
+# median
+print(np.median(arr))
+# standart deviation
+print(np.std(arr))
+```
+
+![](../resources/img/4/28.png)
+
+## Множення np.array
 
 # Домашнє завдання
 
+Виконайте всі завдання.
+
+1. Створіть масив 4Х2 і виведіть його властивості:
+    - форма
+    - загальні кількість елементів
+    - кількість елементів в кожному вимірі
+2. Створіть int масив 5X2 з діапазону від 100 до 200, щоб різниця між кожним елементом становила 10
+3. Маючи 2-х вимірний масив, поміняйте місцями 1 і 2 стовпець
+4. Маючи 2-х виміриний масив, виведіть на екран 1 значення другого рядка.
+
 # Контрольні запитання
+
+1. Що таке virtualenv?
+2. Що таке requirements.txt і як його створити?
+3. Що таке numpy?
+4. Яка відмінність Python list від np.array?
