@@ -2,29 +2,17 @@
 
 ${toc}
 
-# Історія і мотивація до вивчення
+# Lambda
 
-## Мотивація до вивчення
+# Decorators
 
-## Історія
+# Multiple Inheritance
 
-# Як працює Python
+# Multilevel Inheritance
 
-# Особливості синтаксису
+# Method Resolution Order
 
-# Установка і запуск
-
-# Типи даних
-
-# Умовні оператори
-
-# Списки
-
-# Цикли
-
-# Особливості print
-
-# Матиматичні функції
+# Inheritance and the LSP
 
 # Домашнє завдання
 
