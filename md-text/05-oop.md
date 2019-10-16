@@ -501,8 +501,92 @@ k.boot()
 
 ## Поліморфізм
 
+Якщо говорити коротко, **поліморфізм** - це здатність застосовувати методи виробничого класу, який не існує на даний момент створеного базового. Для тих, хто не розуміється в ООП, це, наверно, звучить складно. Тому, розгляньмо застосування поліморфізму на прикладі.
+
+Для цього доробимо приклад із секції "Інкапсуляціє" ще одним нащадком Kernel:
+
+```py
+class Kernel:
+
+  def __init__(self, name, version):
+    self.name = name
+    self.version = version
+
+  def boot(self):
+    print('Botting kernel ', self.name, ' version ', self.version)
+
+
+class KernelWithPanicMode(Kernel):
+
+  def __init__(self, name, version, isPanicModeEnabled):
+    super(KernelWithPanicMode, self).__init__(name, version)
+    self.isPanicModeEnabled = isPanicModeEnabled
+
+  def boot(self):
+    super().boot()
+    if self.isPanicModeEnabled:
+      print('With panic mode')
+
+
+class KernelWithSafeMode(Kernel):
+
+  def __init__(self, name, version, isSafeModeEnabled):
+    super(KernelWithSafeMode, self).__init__(name, version)
+    self.isSafeModeEnabled = isSafeModeEnabled
+
+  def boot(self):
+    super().boot()
+    if self.isSafeModeEnabled:
+      print('With safe mode')
+```
+
+Перед тим як продемонструвати поліморфізм потрібно акцентувати увагу на тому, що **дочірній клас може бути приведений до типу батьківського класу**. На рівні коду, в приведеному типу залишаються лише атрибути батьківського класу, але фізично він залишається дочірнім класом із перевизначеним методом батьківського класу.
+
+```py
+if isinstance(k, Kernel):
+  print('k instance of Kernel')
+```
+
+Тепер розробимо клас OS, для функціонування якого потрібне ядро.
+
+```py
+class OS:
+
+  def __init__(self, kernel):
+    if isinstance(kernel, Kernel):
+      self.kernel = kernel
+    else:
+      print('Passed kernel does not supports')
+
+  def start(self):
+    print('Starting OS')
+    self.kernel.boot()
+```
+
+Клас OS може прийняти будь-якого нащадка класу Kernel. На момент створення класу OS, невідомо який клас буде переданий. Дочірні класи Kernel визначають метод boot() по - своєму.
+
+```py
+k = KernelWithPanicMode('Linux', '5.12', True)
+k1 = KernelWithSafeMode('Linux', '4.9', True)
+
+os = OS(k)
+os.start()
+
+os1 = OS(k1)
+os1.start()
+```
+
+![](../resources/img/5/10.png)
+
 # unittest
 
 # Домашнє завдання
 
 # Контрольні запитання
+
+1. Яка різниця між класом і об'єктом?
+2. Для чого призначений метод ```__init__()```?
+3. Що таке ключове слово self?
+4. Поясніть принцип інкапсуляції і його реалізації в Python?
+5. Поясніть принцип наслідування і його реалізації в Python?
+6. Поясніть принцип поліморфізму і його реалізації в Python?
