@@ -601,3 +601,146 @@ os1.start()
 ```
 
 ![](../resources/img/5/10.png)
+
+
+
+## unittest
+
+
+### unittest
+
+- Ідея, що лежить в основі модульного тестування, полягає в окремому тестуванні поведінки кожної самостійної одиниці програмного коду.
+- Оскільки зараз програмний код в переважній більшості пишеться на об'єктно-орієнтованих мовах, то в якості "цеглинки" коду виступає написаний програмістом клас, а якщо переходити на ще більш глибокий рівень, то навіть не клас, а окремо взятий метод цього класу.
+- Модульні тести для свого кода пішуть самі програмісти.
+
+
+### unittest
+
+- **unittest** - модуль, який вбудований в Python і використовується для написання автоматизованих тестів.
+- В основі unittest лежать так звані asserts:
+
+
+### unittest
+|Method|Checks that|
+|-|-|
+|assertEqual(a, b)|a == b|
+|assertNotEqual(a, b)|a != b|
+|assertTrue(x)|bool(x) is True|
+|assertFalse(x)|bool(x) is False|
+|assertIs(a, b)|a is b|
+|assertIsNot(a, b)|a is not b|
+|assertIsNone(x)|x is None|
+|assertIsNotNone(x)|x is not None|
+|assertIn(a, b)|a in b|
+|assertNotIn(a, b)|a not in b|
+|assertIsInstance(a, b)|isinstance(a, b)|
+|assertNotIsInstance(a, b)|not isinstnace(a, b)|
+|assertGreater(a, b)|a > b|
+|assertGreaterEqual(a, b)|a >= b|
+|assertLess(a, b)|a < b|
+|assertLessEqual(a, b)|a <= b|
+
+
+### unittest
+```py
+import unittest
+
+class TestStringMethods(unittest.TestCase):
+
+  def test_upper(self):
+      self.assertEqual('foo'.upper(), 'FOO')
+
+  def test_isupper(self):
+      self.assertTrue('FOO'.isupper())
+      self.assertFalse('Foo'.isupper())
+
+  def test_split(self):
+      s = 'hello world'
+      self.assertEqual(s.split(), ['hello', 'world'])
+      with self.assertRaises(TypeError):
+          s.split(2)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+
+### unittest
+
+- Тестовий випадок створюється шляхом успадкування від unittest.TestCase. 3 окремих тесту визначаються за допомогою методів, ім'я яких починається на test. Ця угода говорить виконавцю тестів про те, які методи є тестами.
+- Останні 2 рядки показують простий спосіб запуску тестів. unittest.main () надає інтерфейс командного рядка для тестування програми.
+
+
+### unittest
+Будучи запущеним з командного рядка, цей скрипт виводить звіт, подібний цьому:
+
+```
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK
+```
+
+
+### unittest
+unittest може бути використаний з командного рядка для запуску модулів з тестами, класів або навіть окремих методів:
+
+```bash
+python -m unittest test_module1 test_module2
+python -m unittest test_module.TestClass
+python -m unittest test_module.TestClass.test_method
+```
+
+Можна також вказувати шлях до файлу:
+
+```bash
+python -m unittest tests/test_something.py
+```
+
+За допомогою прапора -v можна отримати більш детальний звіт:
+
+```bash
+python -m unittest -v test_module
+```
+
+
+### unittest
+Склонуємо репозиторій [rpn](https://github.com/endlesskwazar/rpn_py.git)
+
+і створимо директорію tests, а в ній TestPrChecker.py
+
+![](../resources/img/5/11.png)
+
+
+### unittest
+```py
+import unittest
+
+from rpn.checkers import check_pr
+
+class TestPrChecker(unittest.TestCase):
+
+    def test_pr_should_return_true(self):
+        valid_pr = ['()', '([])']
+        for vp in valid_pr:
+            self.assertTrue(check_pr(vp))
+
+    def test_pr_should_return_false(self):
+        invalid_pr = ['(', '([)']
+        for ip in invalid_pr:
+            self.assertFalse(check_pr(ip))
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+
+### unittest
+Запустимо тести:
+
+```bash
+python -m unittest -v tests.TestPrChecker
+```
+
+![](../resources/img/5/12.png)
