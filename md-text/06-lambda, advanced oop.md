@@ -154,9 +154,96 @@ except ZeroAfterDivisionException as e:
        f.close()
 ```
 
+# Decorators
+
 # Абстрактний клас
 
-# Decorators
+Уявімо собі клас, який стане загальим класом будівельним блоком для інших класів - WalkingCreature.
+
+```py
+class WalkingCreature:
+  
+  def walk(self):
+    pass
+```
+
+Кожен нащадок повинен реалізувати метод walk в залежності від того, що він буде із себе представляти - ходе він на 1, 2, 3 і більше ногах чи лапах. А от реалізація методу walk в класу WalkingCreature взагалі не потрібна. Такі класи називаються абстрактними. В нашому прикладі нече метод walk і не має реалізації, насправді це не зовсім так:
+
+```py
+class WalkingCreature:
+  
+  def walk(self):
+    pass
+
+
+class Human(WalkingCreature):
+  pass
+
+
+a = WalkingCreature()
+b = Human()
+```
+
+В результаті запуску код успішно відпрацював, хоча тут у ньому є дві проблеми:
+
+- Ми можемо створити екземпляр класу, у якого не реалізваний метод
+- Нащадок класу може і не реалізовувати наш абстрактний метод
+
+Наш приклад доволі простий і насправді не має ніякого відношення до абстрактних класів. Насправді і сам Python немає ніякого механізму абстрактних класів. Для цього він використовує модуль, який називається ABSs.
+
+```py
+from abc import ABC, abstractclassmethod
+
+class WalkingCreature(ABC):
+  
+  @abstractclassmethod
+  def walk(self):
+    pass
+
+
+a = WalkingCreature()
+```
+
+![](../resources/img/6/3.png)
+
+```py
+from abc import ABC, abstractclassmethod
+
+class WalkingCreature(ABC):
+  
+  @abstractclassmethod
+  def walk(self):
+    pass
+
+
+class Human(WalkingCreature):
+  pass
+
+
+a = Human()
+```
+
+![](../resources/img/6/4.png)
+
+```py
+from abc import ABC, abstractclassmethod
+
+class WalkingCreature(ABC):
+  
+  @abstractclassmethod
+  def walk(self):
+    pass
+
+
+class Human(WalkingCreature):
+  
+  def walk(self):
+    print('walking on two legs')
+
+
+a = Human()
+a.walk()
+```
 
 # Lambda
 
