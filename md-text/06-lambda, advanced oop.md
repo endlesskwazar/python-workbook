@@ -156,6 +156,215 @@ except ZeroAfterDivisionException as e:
 
 # Decorators
 
+За визначенням, **декоратор** - це функція, яка приймає іншу функцію і розширює поведінку останньої, не змінюючи її.
+
+Почнимо із самого початку. В Python функції - first class citizens, що означає, що вони можуть бути причвоєнні змінній і передані як параметр в іншу функцію:
+
+```py
+def higher_order_func(func):
+  print('executing higher order function')
+  func()
+
+def func():
+  print('executing func')
+
+higher_order_func(func)
+```
+
+![](../resources/img/6/5.png)
+
+Також у функції можуть бути свої внутрішні функції, які вона може використовувати, але ззовні вони недоступні. Внутрішні функції можуть мати доступ до оточення зовнішньої функції, тобто до її параметрів і локальних змінних:
+
+```py
+def higher_order_func(func):
+  print('executing higher order func')
+
+  def inner_func():
+    func()
+    print('executing inner func')
+
+  inner_func()
+
+def func():
+  print('executing func')
+
+# inner_func() error
+higher_order_func(func)
+```
+
+![](../resources/img/6/6.png)
+
+Хоча ззовні до внутрішньої функції достукатися не можна, вона можу бути повернута із самої функції, де вона була оголошена:
+
+```py
+def higher_order_func(func):
+  print('executing higher order func')
+
+  def inner_func():
+    func()
+    print('executing inner func')
+
+  inner_func()
+  return inner_func
+
+def func():
+  print('executing func')
+
+# inner_func() error
+res = higher_order_func(func)
+print(res)
+res()
+```
+
+![](../resources/img/6/7.png)
+
+Тепер ближче до суті, уявімо, що є 2 або більше функцій перед або після, яких нам потрібно виконати, який код. Звісно, можна модифікувати вміст самих функцій, але це рішення містить в собі copy-paste, який в свою чергу є поганим рішенням. Тут нам і допоможуть декоратори:
+
+```py
+def my_decorator(func):
+    def wrapper():
+        print("Something is happening before the function is called.")
+        func()
+        print("Something is happening after the function is called.")
+    return wrapper
+
+def say_whee():
+    print("Whee!")
+
+say_whee = my_decorator(say_whee)
+say_whee()
+```
+
+![](../resources/img/6/8.png)
+
+Перш ніж продовжувати, розглянемо другий приклад. Оскільки wrapper () - це звичайна функція Python, поведінка декоратора функції може динамічно змінюватися. Щоб не заважати сусідам, наступний приклад запускатиме лише декорований код протягом дня:
+
+```py
+from datetime import datetime
+
+def not_during_the_night(func):
+    def wrapper():
+        if 7 <= datetime.now().hour < 22:
+            func()
+        else:
+            pass  # Hush, the neighbors are asleep
+    return wrapper
+
+def say_whee():
+    print("Whee!")
+
+say_whee = not_during_the_night(say_whee)
+```
+
+Спосіб яким ми декорували say_whee () вище, трохи незграбний. Натомість Python дозволяє використовувати декоратори більш простим способом із символом @
+
+```py
+def my_decorator(func):
+    def wrapper():
+        print("Something is happening before the function is called.")
+        func()
+        print("Something is happening after the function is called.")
+    return wrapper
+
+@my_decorator
+def say_whee():
+    print("Whee!")
+
+say_whee()
+```
+
+![](../resources/img/6/8.png)
+
+Тепер, яувімо, що функція, яку ми хочемо декорувати для виклику потребує передачі параметрів:
+
+```py
+def my_decorator(func):
+    def wrapper():
+        print("Something is happening before the function is called.")
+        func()
+        print("Something is happening after the function is called.")
+    return wrapper
+
+@my_decorator
+def say_whee(name):
+    print("Whee! ", name)
+
+say_whee('Alex')
+```
+
+![](../resources/img/6/10.png)
+
+Рішення полягає у використанні *args та **kwargs у функції.
+
+*args та **kwargs - це загальна ідіома, яка дозволяє функціям приймати довільну кількість аргументів.
+
+*args дасть вам усі параметри функції як кортеж:
+
+```py
+def foo(*args):
+  for a in args:
+    print(a)
+
+foo(1,2,3)
+```
+
+![](../resources/img/6/12.png)
+
+**kwargs дасть вам усі аргументи ключових слів, крім тих, що відповідають формальному параметру як словник.
+
+```py
+def bar(**kwargs):
+  for a in kwargs:
+   print (a, kwargs[a])
+
+bar(name="alex", age=20)
+```
+
+![](../resources/img/6/13.png)
+
+```py
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Something is happening before the function is called.")
+        func(*args, **kwargs)
+        print("Something is happening after the function is called.")
+    return wrapper
+
+@my_decorator
+def say_whee(name):
+    print("Whee! ", name)
+
+say_whee('Alex')
+```
+
+![](../resources/img/6/11.png)
+
+Декоратори можна застосовувати не лише на функціях, а також на методах класа:
+
+```py
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Something is happening before the function is called.")
+        func(*args, **kwargs)
+        print("Something is happening after the function is called.")
+    return wrapper
+
+
+class Student:
+
+  def __init__(self, name):
+    self.name = name
+
+  @my_decorator
+  def sayName(self):
+    print(self.name)
+
+s = Student('Alex')
+s.sayName()
+```
+
+![](../resources/img/6/14.png)
+
 # Абстрактний клас
 
 Уявімо собі клас, який стане загальим класом будівельним блоком для інших класів - WalkingCreature.
@@ -248,12 +457,6 @@ a.walk()
 # Lambda
 
 # Mixins
-
-# Multiple Inheritance
-
-# Multilevel Inheritance
-
-# Inheritance and the LSP
 
 # Домашнє завдання
 
