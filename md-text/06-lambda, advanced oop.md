@@ -454,9 +454,72 @@ a = Human()
 a.walk()
 ```
 
-# Lambda
-
 # Mixins
+
+Python одна із тих мов програмування, яка підтримує множинне наслідування:
+
+```py
+class A:
+
+  def __init__(self, a):
+    self.a = a
+
+
+class B:
+
+  def __init__(self, b):
+    self.b = b
+
+
+class C(A, B):
+
+  def __init__(self, a, b, c):
+    A.__init__(self, a)
+    B.__init__(self, b)
+    self.c = c
+
+
+c = C(1,2,3)
+print(c.a, c.b, c.c)
+```
+
+Але цим зловживати непотрібно, так-як множинне наслідування має свої недоліки:
+
+1. Проблема ромба
+
+![](../resources/img/6/15.png)
+
+2. Важко представляти в пам'яті
+3. Проблема вирішення конфліктів імен методів
+4. І взагалі, код стає складно розуміти
+
+Але в множинному наслідування Python є і хороша сторона - Mixins.
+
+Mixin - клас, який не має даних, лише методи. З цих причин він не має методу ```__init__()``` і будь-який клас, який його неслідує не викликає super() конструктор для Mixin.
+
+Міксин часто залежатиме від класу, який його успадковує, який має особливі атрибути, і їх, можливо, потрібно буде додати, якщо їх ще немає.
+
+Розглянемо приклад:
+
+```py
+class DistanceToMixin:
+    def distance_to_origin(self):
+        return math.hypot(self.x, self.y)
+    def distance_to(self, other):
+        return math.hypot(self.x - other.x, self.y - other.y)
+
+class PointD(DistanceToMixin):
+    __slots__ = ("x", "y")
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+    def manhattan_length(self, other=None):
+        if other is None:
+            other = self.__class__()
+        return math.fabs(self.x - other.x) + math.fabs(self.y - other.y)
+```
+
+# Lambda
 
 # Домашнє завдання
 
