@@ -402,7 +402,6 @@ def my_decorator(func):
         print("Something is happening after the function is called.")
     return wrapper
 
-
 class Student:
 
   def __init__(self, name):
@@ -446,10 +445,8 @@ class WalkingCreature:
   def walk(self):
     pass
 
-
 class Human(WalkingCreature):
   pass
-
 
 a = WalkingCreature()
 b = Human()
@@ -479,7 +476,6 @@ class WalkingCreature(ABC):
   def walk(self):
     pass
 
-
 a = WalkingCreature()
 ```
 
@@ -496,10 +492,8 @@ class WalkingCreature(ABC):
   def walk(self):
     pass
 
-
 class Human(WalkingCreature):
   pass
-
 
 a = Human()
 ```
@@ -518,16 +512,15 @@ class WalkingCreature(ABC):
   def walk(self):
     pass
 
-
 class Human(WalkingCreature):
   
   def walk(self):
     print('walking on two legs')
 
-
 a = Human()
 a.walk()
 ```
+
 
 
 ## Mixins
@@ -543,12 +536,10 @@ class A:
   def __init__(self, a):
     self.a = a
 
-
 class B:
 
   def __init__(self, b):
     self.b = b
-
 
 class C(A, B):
 
@@ -556,7 +547,6 @@ class C(A, B):
     A.__init__(self, a)
     B.__init__(self, b)
     self.c = c
-
 
 c = C(1,2,3)
 print(c.a, c.b, c.c)
@@ -617,7 +607,6 @@ def pass_me_a_helper_func_to_get_value(cb):
   a = cb()
   a += 33
   print('generated value from passed function', a)
-
 
 def gen_calue():
   return 2
@@ -747,7 +736,6 @@ class MyList:
   def transform(self, func):
     for i, item in enumerate(self.values):
       self.values[i] = func(item)
-
 
 source_list =  [1, 33, 2, 6, 7]
 my_list = MyList(source_list)
