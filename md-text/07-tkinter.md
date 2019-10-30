@@ -213,21 +213,213 @@ if __name__ == '__main__':
 
 ## pack - менеджер
 
+
+У методу pack () є параметр side (сторона), який приймає одне з чотирьох значень-констант tkinter - TOP, BOTTOM, LEFT, RIGHT (верх, низ, ліво, право). За замовчуванням, коли в pack () не вказується side, його значення дорівнює TOP. Через це віджети розташовуються вертикально.
+
+
+розглянемо різні комбінації значень параметру side:
+
+![](../resources/img/7/2.png)
+
+![](../resources/img/7/3.png)
+
+![](../resources/img/7/4.png)
+
+![](../resources/img/7/5.png)
+
+![](../resources/img/7/6.png)
+
+![](../resources/img/7/7.png)
+
+Наступні дві властивості - fill (заповнення) і expand (розширення). За замовчуванням expand дорівнює нулю (інше значення - одиниця), а fill - NONE (інші значення BOTH, X, Y).
+
+```py
+from tkinter import Tk, RIGHT, BOTH, RAISED
+from tkinter.ttk import Frame, Button, Style
+
+
+class Example(Frame):
+
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+
+        self.master.title("Buttons")
+        frame = Frame(self, relief=RAISED, borderwidth=1)
+        frame.pack(fill=BOTH, expand=True)
+
+        self.pack(fill=BOTH, expand=True)
+
+        closeButton = Button(self, text="Close")
+        closeButton.pack(side=RIGHT, padx=5, pady=5)
+        okButton = Button(self, text="OK")
+        okButton.pack(side=RIGHT)
+
+
+def main():
+
+    root = Tk()
+    root.geometry("300x200+300+300")
+    app = Example()
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
+```
+
+У нас є два фрейми. Є базовий фрейм і додатковий фрейм, який розширюється в обидва боки і витісняє дві кнопки до нижньої частини базового фрейму. Кнопки розміщуються в горизонтальній коробці і розміщуються праворуч від цього поля.
+
+
+
 ## grid - менеджер
 
+Табличний спосіб розміщення кращий через його гнучкості і зручності, коли справа доходить до розробки щодо складних інтерфейсів. Grid дозволяє уникнути використання безлічі фреймів, що неминуче в разі пакувальника Pack.
+
+При розміщенні віджетів методом grid () батьківський контейнер (зазвичай це вікно) умовно поділяється на осередки подібно таблиці. Адреса кожного осередку складається з номера рядка і номера стовпчика. Нумерація починається з нуля. Осередки можна об'єднувати як по вертикалі, так і по горизонталі.
+
+![](../resources/img/7/8.png)
+
+За допомогою методів columnconfigure() і rowconfigure() на бітьківському віджеті ми можемо створювати розмітку таблиці.
+
+columnconfigure()/rowconfigure():
+
+- minsize - мінімальна ширина/висота рядка/стовпця.
+- weight - "вага" рядка/стовпця при збільшенні розміру віджета. 0 означає, що рядок/стовпець не розширюватиметься. Рядок/стовпець з "вагою" рівним 2 буде розширюватися вдвічі швидше, ніж з вагою 1.
+- uniform - об'єднання рядків/стовпців в групи. Рядки/стовпці мають однаковий параметр uniform будуть розширюватися строго у відповідності зі своїм вагою.
+- pad - розмір відступів. Вказує, скільки простору буде додано до найбільшого віджету в рядку/стовпці.
+
+Щоб позиціонувати віджети в таблиці достатньов иконати метод grid() на віджеті.
+
+grid():
+
+- віав
+- іва
+- іва
+
+```py
+from tkinter import Tk, W, E
+from tkinter.ttk import Frame, Button, Entry, Style
+
+class Example(Frame):
+
+
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+
+        self.master.title("Calculator")
+
+        Style().configure("TButton", padding=(0, 5, 0, 5),
+            font='serif 10')
+
+        self.columnconfigure(0, pad=3)
+        self.columnconfigure(1, pad=3)
+        self.columnconfigure(2, pad=3)
+        self.columnconfigure(3, pad=3)
+
+        self.rowconfigure(0, pad=3)
+        self.rowconfigure(1, pad=3)
+        self.rowconfigure(2, pad=3)
+        self.rowconfigure(3, pad=3)
+        self.rowconfigure(4, pad=3)
+
+        entry = Entry(self)
+        entry.grid(row=0, columnspan=4, sticky=W+E)
+        cls = Button(self, text="Cls")
+        cls.grid(row=1, column=0)
+        bck = Button(self, text="Back")
+        bck.grid(row=1, column=1)
+        lbl = Button(self)
+        lbl.grid(row=1, column=2)
+        clo = Button(self, text="Close")
+        clo.grid(row=1, column=3)
+        sev = Button(self, text="7")
+        sev.grid(row=2, column=0)
+        eig = Button(self, text="8")
+        eig.grid(row=2, column=1)
+        nin = Button(self, text="9")
+        nin.grid(row=2, column=2)
+        div = Button(self, text="/")
+        div.grid(row=2, column=3)
+
+        fou = Button(self, text="4")
+        fou.grid(row=3, column=0)
+        fiv = Button(self, text="5")
+        fiv.grid(row=3, column=1)
+        six = Button(self, text="6")
+        six.grid(row=3, column=2)
+        mul = Button(self, text="*")
+        mul.grid(row=3, column=3)
+
+        one = Button(self, text="1")
+        one.grid(row=4, column=0)
+        two = Button(self, text="2")
+        two.grid(row=4, column=1)
+        thr = Button(self, text="3")
+        thr.grid(row=4, column=2)
+        mns = Button(self, text="-")
+        mns.grid(row=4, column=3)
+
+        zer = Button(self, text="0")
+        zer.grid(row=5, column=0)
+        dot = Button(self, text=".")
+        dot.grid(row=5, column=1)
+        equ = Button(self, text="=")
+        equ.grid(row=5, column=2)
+        pls = Button(self, text="+")
+        pls.grid(row=5, column=3)
+        
+        self.pack()
+
+
+def main():
+
+    root = Tk()
+    app = Example()
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
+```
+
+За допомогою методів grid_remove () і grid_forget () можна зробити віджет невидимим. Відмінність між цими методами лише в тому, що grid_remove () запам'ятовує попереднє положення віджету. Тому для його відображення в колишньої осередки досить застосувати grid () без аргументів. Після grid_forget () буде потрібно заново конфігурувати положення віджету.
+
+Приховування віджетів буває необхідно в тих випадках, коли, наприклад, від вибору користувача в одній частині інтерфейсу залежить, які віджети з'являться в інший.
+
 # Основні віджети
+
+## label
+
+## button
+
+## Checkbutton
+
+## Scale
+
+## Listbox
+
+## Combobox
+
+## Entry
 
 # Приклад
 
 # Домашнє завдання
 
+Розробіть GUI для RPN, який був розроблений в лабораторній роботі №5.
+
 # Контрольні запитання
 
-1. фіва
-2. фіва
-3. фів
-4. іва
-5. іва
+1. Що таке Tkinter?
+2. Що потрібно для того, щоб почати розробляти додатки з використанням Tkinter
+3. Поясніть абсолютне позиціонування, використовуючи place.
+4. Поясніть менеджери компонування pack і grid.
 
 
 
