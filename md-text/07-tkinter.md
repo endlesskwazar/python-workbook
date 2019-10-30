@@ -295,9 +295,8 @@ columnconfigure()/rowconfigure():
 
 grid():
 
-- віав
-- іва
-- іва
+- padx, pady - відступи
+- sticky(липкий) - можливі значення - S, W, E, NW, NE, SW, SE
 
 ```py
 from tkinter import Tk, W, E
@@ -396,19 +395,268 @@ if __name__ == '__main__':
 
 ## label
 
-## button
+```py
+from tkinter import Tk, BOTH
+from tkinter.ttk import Frame, Label, Button
+
+
+class Example(Frame):
+
+    def __init__(self):
+        super().__init__()
+        self.lbl, self.btn = (None, None)
+        self.initUI()
+
+    def initUI(self):
+        self.master.title("Calculator")
+        self.lbl = Label(self, text='Some text')
+        self.lbl.pack(fill=BOTH, expand=0)
+        self.btn = Button(self, text='Click ME!!!', command=self.btnClick)
+        self.btn.pack(fill=BOTH, expand=0)
+        self.pack()
+
+    def btnClick(self):
+        self.lbl.config(text="new text")
+
+
+def main():
+    root = Tk()
+    app = Example()
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
+```
 
 ## Checkbutton
 
+```py
+from tkinter import Tk, Frame, Checkbutton
+from tkinter import BooleanVar, BOTH
+
+
+class Example(Frame):
+
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
+
+        self.master.title("Checkbutton")
+
+        self.pack(fill=BOTH, expand=True)
+        self.var = BooleanVar()
+
+        cb = Checkbutton(self, text="Show title",
+            variable=self.var, command=self.onClick)
+        cb.select()
+        cb.place(x=50, y=50)
+
+    def onClick(self):
+        if self.var.get():
+            self.master.title("Checkbutton")
+        else:
+            self.master.title("")
+
+
+def main():
+
+    root = Tk()
+    root.geometry("250x150+300+300")
+    app = Example()
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
+```
+
 ## Scale
+
+```py
+from tkinter import Tk, BOTH, IntVar, LEFT
+from tkinter.ttk import Frame, Label, Scale, Style
+
+
+class Example(Frame):
+
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+
+    def initUI(self):
+        self.master.title("Scale")
+        self.style = Style()
+        self.style.theme_use("default")
+
+        self.pack(fill=BOTH, expand=1)
+
+        scale = Scale(self, from_=0, to=100,
+            command=self.onScale)
+        scale.pack(side=LEFT, padx=15)
+
+        self.var = IntVar()
+        self.label = Label(self, text=0, textvariable=self.var)
+        self.label.pack(side=LEFT)
+
+    def onScale(self, val):
+        v = int(float(val))
+        self.var.set(v)
+
+
+def main():
+    root = Tk()
+    ex = Example()
+    root.geometry("250x100+300+300")
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
+```
 
 ## Listbox
 
+```py
+from tkinter import Tk, BOTH, Listbox, StringVar, END
+from tkinter.ttk import Frame, Label
+
+
+class Example(Frame):
+
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
+        self.master.title("Listbox")
+
+        self.pack(fill=BOTH, expand=1)
+
+        acts = ['Scarlett Johansson', 'Rachel Weiss',
+            'Natalie Portman', 'Jessica Alba']
+
+        lb = Listbox(self)
+
+        for i in acts:
+            lb.insert(END, i)
+
+        lb.bind("<<ListboxSelect>>", self.onSelect)
+
+        lb.pack(pady=15)
+
+        self.var = StringVar()
+        self.label = Label(self, text=0, textvariable=self.var)
+        self.label.pack()
+
+    def onSelect(self, val):
+        sender = val.widget
+        idx = sender.curselection()
+        value = sender.get(idx)
+        self.var.set(value)
+
+
+def main():
+    root = Tk()
+    ex = Example()
+    root.geometry("300x250+300+300")
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
+```
+
 ## Combobox
+
+```py
+import tkinter as tk
+from tkinter import ttk
+
+
+class Example(tk.Frame):
+
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
+        self.master.title("Listbox")
+
+        self.pack(fill=tk.BOTH, expand=1)
+
+        cb = ttk.Combobox(self,
+                            values=[
+                                    "January",
+                                    "February",
+                                    "March",
+                                    "April"])
+        cb.bind("<<ComboboxSelected>>", self.onSelect)
+        cb.pack(pady=15)
+
+        self.var = tk.StringVar()
+        self.label = tk.Label(self, text=0, textvariable=self.var)
+        self.label.pack()
+
+    def onSelect(self, val):
+        sender = val.widget
+        self.var.set(str(sender.current()) + ' ' + str( sender.get()))
+
+
+def main():
+    root = tk.Tk()
+    ex = Example()
+    root.geometry("300x250+300+300")
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
+```
 
 ## Entry
 
-# Приклад
+```py
+import tkinter as tk
+from tkinter import ttk
+
+
+class Example(tk.Frame):
+
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
+        self.master.title("Listbox")
+
+        self.pack(fill=tk.BOTH, expand=1)
+        self.var = tk.StringVar()
+
+        entry = ttk.Entry(self, textvariable=self.var)
+        entry.pack(pady=15)
+
+        label = tk.Label(self, text=0, textvariable=self.var)
+        label.pack()
+
+
+def main():
+    root = tk.Tk()
+    ex = Example()
+    root.geometry("300x250+300+300")
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
+```
 
 # Домашнє завдання
 
