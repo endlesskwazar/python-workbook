@@ -642,6 +642,30 @@ my_list.forEach(lambda x: print(x))
 
 # Домашнє завдання
 
+1. Розробіть декоратор, який визначає час виконання функції.
+2. До класу Integer:
+
+```py
+class OddMixin:
+
+    def is_odd(self):
+        return True if self.value % 2 != 0 else False
+
+
+class Integer(OddMixin):
+
+    def __init__(self, value):
+        self.value = value
+
+
+i = Integer(3)
+print(i.is_odd())
+```
+
+доробіть:
+  - EvenMixin - визначає чи є число парним
+  - SquaringMixin - повертає значення піднесене в квадрат
+
 # Контрольні запитання
 
 1. Що таке вийнятки в Python?
