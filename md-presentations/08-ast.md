@@ -346,5 +346,5 @@ builder.ret( fn_fib_rec_res )
 ### Example
 
 - [py-examples](https://github.com/endlesskwazar/py-examples)
-- rply-example
+- llvm-example
 
