@@ -1,7 +1,6 @@
 # Написати свою мову програмування
 
 
-
 ### Що таке інтерперетатор?
 
 - Звичайна програма
@@ -27,7 +26,6 @@
 - Runtime
 
 - Всі кроки послідовні (Source code -> Parser -> AST -> Bytecode-compiler -> Bytecode interpreter -> Runtime)
-
 
 
 ### Розроблювана мова?
@@ -98,7 +96,7 @@ Token('NUMBER', '23')
 
 ### Parsers
 
-Синтаксичний аналіз (або розбір, жарг. Парсинг ← англ. Parsing) в лінгвістиці та інформатики - процес зіставлення лінійної послідовності лексем (слів, токенів) природної або формальної мови з його формальною граматикою. Результатом зазвичай є дерево розбору (синтаксичне дерево).
+**Синтаксичний аналіз** (або розбір, жарг. Парсинг ← англ. Parsing) в лінгвістиці та інформатики - процес зіставлення лінійної послідовності лексем (слів, токенів) природної або формальної мови з його формальною граматикою. Результатом зазвичай є дерево розбору (синтаксичне дерево).
 
 
 ### Parsers
@@ -127,3 +125,151 @@ class Number(Node):
     def __init__(self, value):
         self.value = value
 ```
+
+
+### Parsers
+
+```py
+@pg.production("statements : statements statement")
+def statements(s):
+    return ast.Block(s[0].getastlist() + [s[1]])
+
+@pg.production("statements : statement")
+def statements(s):
+    return ast.Block([s[0])
+
+@pg.production("statement : expr SEMICOLON")
+def statements(s):
+    return ast.Statement([s[0])
+
+@pg.production("expr : NUMBER")
+def statements(s):
+    return ast.NUMBER(float([s[0].getstr()))
+```
+
+
+### Parsers
+
+```py
+@pg.production("expr : expr PLUS expr")
+def statements(s):
+    return ast.BinOp(s[1].getstr(), s[0], s[2])
+```
+
+
+### Parsers
+
+![](../resources/img/8/3.png)
+
+
+### Compiler
+
+Bytecode:
+
+- Перелік інструкцій для машини
+- Інколи має аргументи
+- Базується на стекові
+
+
+### Compiler
+
+```
+1 + 21
+
+LOAD_CONST 0
+LOAD_CONST 1
+BINARY_ADD
+POP_TOP
+```
+
+
+### Compiler
+
+```py
+class Statement(Node):
+    def compile(self, ctx):
+    self.expr.compile(ctx)
+    ctx.emit(POP_TOP)
+
+class Number(Node):
+    def compile(self, ctx):
+    ctx.emit(LOAD_CONST, ctx.new_const(JSNumber(self.value)))
+```
+
+
+### Compiler
+
+```py
+class BinOp(Node):
+    def compile(self, ctx):
+    self.left.compile(ctx)
+    self.right.compile(ctx)
+    opname = {
+        "+": "BINARY_ADD"
+    }
+    ctx.emit(opname[self.op])
+```
+
+
+### Object Model
+
+```py
+class JSObject(object):
+    pass
+
+class JSNumber(JSObject):
+    def __init__(self, value):
+        self.value = value
+```
+
+
+### Object Model
+
+```py
+class JSNumber(JSObject):
+    def add(self, other):
+        assert isinstance(other, JSNumber)
+        return JSNumber(self.value + other.value)
+```
+
+
+### Interpreter
+
+```py
+class Interpreter:
+    def interpret(self):
+        pc = 0
+        while pc < len(self.bytecode):
+            opcode = self.bytecode[pc]
+            opname = OPCODE_TO_NAME[opcode]
+            pc = getattr(self, opname)(pc)
+```
+
+
+### Interpreter
+
+```py
+class Interpreter:
+    def LOAD_CONST(self, pc):
+        arg = ord(self.bytecode[pc + 1])
+        self.push(self.consts[arg])
+        return pc + 2
+```
+
+
+### Interpreter
+
+```py
+class Interpreter:
+    def BINARY_ADD(self, pc):
+        right = self.pop()
+        left = self.pop()
+        self.push(left.add(right))
+        return pc + 1
+```
+
+
+
+
+
+
