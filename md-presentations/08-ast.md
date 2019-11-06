@@ -293,12 +293,58 @@ pip install llvmlite
 
 ### ir
 
+```py
+def fibonacci( n ):
+  if n <= 1:
+    return 1;
+  return fibonacci( n - 1 ) + fibonacci( n - 2)
+```
 
-### llvmlite ir bindings
+
+### ir
+
+```py
+from llvmlite import ir
+
+# Створюємо 64 бітну інтову змінну
+int_type = ir.IntType(64)
+# Створюємо параметри функції
+fn_int_to_int_type = ir.FunctionType( int_type, [int_type] )
+# Створюємо модуль
+module = ir.Module( name="m_fibonacci_example" )
+# Створюємо функцію із ім'ям та заздалегіть визначиними параметрами у модулі
+fn_fib = ir.Function( module, fn_int_to_int_type, name="fn_fib" )
+# Створюємо блок(тіло функції)
+fn_fib_block = fn_fib.append_basic_block( name="fn_fib_entry" )
+# Білдер для того щоб почати реалізовувати функцію
+builder = ir.IRBuilder( fn_fib_block )
+# Отримуємо передані параметри функції
+fn_fib_n, = fn_fib.args # , - tuple
+# Дві константи
+const_1 = ir.Constant(int_type,1)
+const_2 = ir.Constant(int_type,2)
+# Інструкція порівняння
+fn_fib_n_lteq_1 = builder.icmp_signed(cmpop="<=", lhs=fn_fib_n, rhs=const_1 )
+# Якщо інструкція порівняння true = ret const_1
+with builder.if_then( fn_fib_n_lteq_1 ):
+  builder.ret( const_1 )
+fn_fib_n_minus_1 = builder.sub( fn_fib_n, const_1 )
+fn_fib_n_minus_2 = builder.sub( fn_fib_n, const_2 )
+# fibonacci( n - 1 )
+call_fn_fib_n_minus_1 = builder.call( fn_fib, [fn_fib_n_minus_1] )
+# fibonacci( n - 2 )
+call_fn_fib_n_minus_2 = builder.call( fn_fib, [fn_fib_n_minus_2] )
+fn_fib_rec_res =  builder.add( call_fn_fib_n_minus_1, call_fn_fib_n_minus_2 )
+builder.ret( fn_fib_rec_res )
+```
 
 
+### ir
+[docs](http://llvmlite.pydata.org/en/latest/index.html)
 
 
+### Example
 
-
+- [py-examples](https://github.com/endlesskwazar/py-examples)
+- rply-example
 
