@@ -269,6 +269,35 @@ class Interpreter:
 ```
 
 
+### Example
+
+- [py-examples](https://github.com/endlesskwazar/py-examples)
+- rply-example
+
+
+### LLVM
+
+- Low Level Virtual Machine (LLVM) — універсальна система аналізу, трансформації і оптимізації програм, що реалізує віртуальну машину з RISC-подібними інструкціями. Може використовуватися як оптимізуючий компілятор цього байт-коду в машинний код для різних архітектур або для його інтерпретації та JIT-компіляції (для деяких платформ)
+- LLVM дозволяє компілювати програми, написані на мовах С, C++, ObjC, Fortran, Ada, Haskell, Java, Python, Ruby, JavaScript, GLSL або будь-якій іншій, для якої реалізований front-end. В рамках проекту розроблено фронтенд Clang для мов C і C++ і версія GCC, що використовують LLVM як бекенд.
+- У основі LLVM лежить проміжне представлення коду (intermediate representation, IR), над яким можна виконувати трансформації у всі компіляції, компонування і виконання. Із цього представлення генерується оптимізований машинний код для цілого ряду платформ, як статично, так і динамічно (JIT-компіляція).
+
+
+### llvmlite
+
+A lightweight LLVM python binding for writing JIT compilers
+
+```bash
+pip install llvmlite
+```
+
+
+### ir
+
+
+### llvmlite ir bindings
+
+
+
 
 
 
