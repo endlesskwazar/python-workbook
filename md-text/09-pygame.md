@@ -562,12 +562,12 @@ while 1:
 
 |Метод|Пояснення|
 |-|-|
-|pygame.Rect.collidepoint||
-|pygame.Rect.colliderect||
-|pygame.Rect.collidelist||
-|pygame.Rect.collidelistall||
-|pygame.Rect.collidedict||
-|pygame.Rect.collidedictall||
+|pygame.Rect.collidepoint|Повертає True, якщо дана точка знаходиться всередині прямокутника.|
+|pygame.Rect.colliderect|Повертає True, якщо будь-яка частина прямокутника перекривається|
+|pygame.Rect.collidelist|Перевірте, чи стикається прямокутник з будь-яким у послідовності прямокутників. Повертається індекс першого знайденого зіткнення. Якщо зіткнень не знайдено, показник -1 повертається.|
+|pygame.Rect.collidelistall|Повертає список усіх індексів, що містять прямокутники, що стикаються з Rect. Якщо прямокутників, що перетинаються, не знайдено, повертається порожній список.|
+|pygame.Rect.collidedict|Повертає першу пару ключів і значень, яка перетинається з викликаючим об'єктом Rect. Якщо зіткнень не знайдено, None повертається.|
+|pygame.Rect.collidedictall|Повертає список усіх пар ключів і значень, які перетинаються з викликаючим об'єктом Rect. Якщо зіткнень не знайдено, порожній список повертається.|
 
 **collidepoint:**
 
@@ -604,38 +604,330 @@ while 1:
 **pygame.Rect.colliderect:**
 
 ```py
+import pygame
 
+FPS = 60
+W = 700
+H = 300
+WHITE = (255, 255, 255)
+BLUE = (0, 70, 225)
+
+pygame.init()
+sc = pygame.display.set_mode((600,600))
+
+r = pygame.draw.rect(sc, BLUE, (100, 100, 50, 50))
+r2 = pygame.draw.rect(sc, WHITE, (120, 100, 50, 50))
+
+if r.colliderect(r2):
+    print('react 1 and rect colaides')
+
+clock = pygame.time.Clock()
+
+while 1:
+    pygame.display.update()
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
+            exit()
+    clock.tick(FPS)
 ```
 
 **collidelist:**
 
 ```py
+import pygame
 
+FPS = 60
+W = 700
+H = 300
+WHITE = (255, 255, 255)
+BLUE = (0, 70, 225)
+
+pygame.init()
+sc = pygame.display.set_mode((600,600))
+
+r = pygame.draw.rect(sc, BLUE, (100, 100, 50, 50))
+r2 = pygame.draw.rect(sc, WHITE, (160, 160, 50, 50))
+r3 = pygame.draw.rect(sc, WHITE, (120, 100, 50, 50))
+
+collide_index = r.collidelist([r2, r3])
+print(collide_index)
+
+clock = pygame.time.Clock()
+
+while 1:
+    pygame.display.update()
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
+            exit()
+    clock.tick(FPS)
 ```
 
 **collidelistall:**
 
 ```py
+import pygame
 
+FPS = 60
+W = 700
+H = 300
+WHITE = (255, 255, 255)
+BLUE = (0, 70, 225)
+
+pygame.init()
+sc = pygame.display.set_mode((600,600))
+
+r = pygame.draw.rect(sc, BLUE, (100, 100, 50, 50))
+r2 = pygame.draw.rect(sc, WHITE, (110, 110, 50, 50))
+r3 = pygame.draw.rect(sc, WHITE, (120, 100, 50, 50))
+
+collide_list = r.collidelistall([r2, r3])
+print(collide_list)
+
+clock = pygame.time.Clock()
+
+while 1:
+    pygame.display.update()
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
+            exit()
+    clock.tick(FPS)
 ```
 
 **collidedict:**
 
 ```py
+import pygame
 
+FPS = 60
+W = 700
+H = 300
+WHITE = (255, 255, 255)
+BLUE = (0, 70, 225)
+
+pygame.init()
+sc = pygame.display.set_mode((600,600))
+
+r = pygame.draw.rect(sc, BLUE, (100, 100, 50, 50))
+r2 = pygame.draw.rect(sc, WHITE, (110, 110, 50, 50))
+r3 = pygame.draw.rect(sc, WHITE, (120, 100, 50, 50))
+
+collide_dict = r.collidedict({
+    'r2': r2,
+    'r3': r3
+}, True)
+
+print(collide_dict)
+
+clock = pygame.time.Clock()
+
+while 1:
+    pygame.display.update()
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
+            exit()
+    clock.tick(FPS)
 ```
 
 **collidedictall:**
 
 ```py
+import pygame
 
+FPS = 60
+W = 700
+H = 300
+WHITE = (255, 255, 255)
+BLUE = (0, 70, 225)
+
+pygame.init()
+sc = pygame.display.set_mode((600,600))
+
+r = pygame.draw.rect(sc, BLUE, (100, 100, 50, 50))
+r2 = pygame.draw.rect(sc, WHITE, (110, 110, 50, 50))
+r3 = pygame.draw.rect(sc, WHITE, (120, 100, 50, 50))
+
+collide_dict = r.collidedictall({
+    'r2': r2,
+    'r3': r3
+}, True)
+
+print(collide_dict)
+
+clock = pygame.time.Clock()
+
+while 1:
+    pygame.display.update()
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
+            exit()
+    clock.tick(FPS)
+```
+
+## Приклад
+
+```py
+import pygame
+
+FPS = 60
+W = 700
+H = 400
+WHITE = (255, 255, 255)
+BLUE = (0, 70, 225)
+GREEN = (0, 200, 64)
+
+pygame.init()
+sc = pygame.display.set_mode((W, H))
+clock = pygame.time.Clock()
+
+sc.fill(WHITE)
+hero = pygame.draw.rect(sc, BLUE, (0, 380, 20, 20))
+
+jumped = False
+
+while 1:
+    sc.fill(WHITE)
+    pygame.draw.rect(sc, BLUE, hero)
+
+    enemy1 = pygame.draw.rect(sc, GREEN, (100, 380, 20, 20))
+    enemy2 = pygame.draw.rect(sc, GREEN, (400, 380, 20, 20))
+
+    if hero.collidelist([enemy1, enemy2]) is not -1:
+        exit()
+
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
+            exit()
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        hero.x -= 3
+    if keys[pygame.K_RIGHT]:
+        hero.x += 3
+    if keys[pygame.K_SPACE] and not jumped:
+        jumped = True
+        hero.y -= 40
+    elif jumped and hero.y != 380:
+        hero.y += 1
+    else:
+        jumped = False
+
+    pygame.display.update()
+
+    clock.tick(FPS)
 ```
 
 # Звук
 
+В Pygame для роботи з аудіо передбаченл модулямі pygame.mixer та pygame.mixer.music. Модулі схожі, однако pygame.mixer у першому очевидці адаптувались для постачальників і в мережі звукових ефектів в іграх. У час як pygame.mixer.music - для додавання фонової музики.
+
+Функція pygame.mixer.music.load () загружає потокове аудіо, тобто не  грузить файл цілком, а робить це окремими порціями. У результатах можна програти лише один файл за раз. Однак можна залишити файли у очевидній функції черги (). Підтримує формат mp3.
+
+З іншою стороною, в pygame.mixer ключевим є класс Sound. Він може завантажувати, грати і виконувати ряд інших дій з файлами форматів wav або ogg. При створенні екземпляра Sound в конструкторі передається ім'я файлу.
+
+```py
+import pygame
+
+FPS = 60
+W = 700
+H = 400
+WHITE = (255, 255, 255)
+BLUE = (0, 70, 225)
+GREEN = (0, 200, 64)
+
+pygame.init()
+sc = pygame.display.set_mode((W, H))
+clock = pygame.time.Clock()
+
+sc.fill(WHITE)
+hero = pygame.draw.rect(sc, BLUE, (0, 380, 20, 20))
+
+jumped = False
+
+# load background sound
+pygame.mixer.init()
+pygame.mixer.music.load('resources/sound/bensound-funkyelement.mp3')
+pygame.mixer.music.play(5, 0.0)
+
+jump_sound = pygame.mixer.Sound('resources/sound/jump_01.wav')
+
+while 1:
+    sc.fill(WHITE)
+    pygame.draw.rect(sc, BLUE, hero)
+
+    enemy1 = pygame.draw.rect(sc, GREEN, (100, 380, 20, 20))
+    enemy2 = pygame.draw.rect(sc, GREEN, (400, 380, 20, 20))
+
+    if hero.collidelist([enemy1, enemy2]) is not -1:
+        exit()
+
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
+            exit()
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        hero.x -= 3
+    if keys[pygame.K_RIGHT]:
+        hero.x += 3
+    if keys[pygame.K_SPACE] and not jumped:
+        jump_sound.play()
+        jumped = True
+        hero.y -= 40
+    elif jumped and hero.y != 380:
+        hero.y += 1
+    else:
+        jumped = False
+
+    pygame.display.update()
+
+    clock.tick(FPS)
+```
+
 # Зоображення
 
+Функція **load ()** модуля **pygame.image** завантажує зображення та створює екземпляр Surface, на якій зображено це зображення. В load () передається ім'я файлу. "Рідним" форматом є BMP, однак якщо функція pygame.image.get_extended () повертає True, то можна завантажувати ряд інших форматів: PNG, GIF, JPG та ін.
+
+```py
+import pygame
+pygame.init()
+ 
+sc = pygame.display.set_mode((400, 300))
+sc.fill((100, 150, 200))
+ 
+dog_surf = pygame.image.load('dog.bmp')
+dog_rect = dog_surf.get_rect(bottomright=(400, 300))
+sc.blit(dog_surf, dog_rect)
+ 
+pygame.display.update()
+ 
+while 1:
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT:
+            exit()
+ 
+    pygame.time.delay(20)
+```
+
+
+Якщо ви не користуєтеся прозорим слоєм, але він необхідний, слід використовувати метод set_colorkey () класу Surface:
+
+```py
+dog_surf = pygame.image.load('dog.bmp')
+dog_surf.set_colorkey((255, 255, 255))
+```
+
+Модуль pygame.transform містить функції для зміни поверхонь. Деякі трансформації (наприклад, зміна розміру) призводять до погіршення зображення через втрату частини пікселів. У таких випадках треба зберігати джерельну поверхню і виконувати трансформації від неї.
+
+Функції модуля transform, які змінюють поверхні, повертають нові. Першим аргументом їм передається вихідний Surface. Нижче наведені приклади використання найбільш затребуваних функцій.
+
+```py
+
+```
+
 # Розробляємо із використанням ООП
+
+- Репозиторій - 
+- Гілка - 
 
 # android
 
